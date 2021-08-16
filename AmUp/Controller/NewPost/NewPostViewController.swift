@@ -20,6 +20,7 @@ class NewPostViewController: UIViewController {
         let camera = GMSCameraPosition.camera(withLatitude: 33.2, longitude: 33.2, zoom: 6.0)
         mapView = GMSMapView.map(withFrame: self.view.frame, camera: camera)
         mapView.delegate = self
+        mapView.isMyLocationEnabled = true
         self.view.addSubview(mapView)
         lblNavBar("New Post")
         
