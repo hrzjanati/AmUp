@@ -46,7 +46,7 @@ class homeViewController: UIViewController {
             
         just.post(
             "http://94.130.88.31:8380/api/home",
-            json: ["latitude" : "52.23232","longitude" : "35.232"], asyncCompletionHandler:  { r in
+            json: ["latitude" : "52.232320000000001","longitude" : "35.231999999999999"], asyncCompletionHandler:  { r in
                 print(r.statusCode!)
                 if r.ok {
                     let json = r.json as? [String: Any]

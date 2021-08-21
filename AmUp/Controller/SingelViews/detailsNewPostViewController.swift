@@ -6,7 +6,7 @@
 //
 
 import UIKit
-
+import Just
 
 class detailsNewPostViewController: UIViewController, UITextViewDelegate {
     
@@ -23,7 +23,6 @@ class detailsNewPostViewController: UIViewController, UITextViewDelegate {
         textView.delegate = self
         textView.text = "Caption:"
         textView.textColor = UIColor(named: "lableCustom")
-        
         let button1 = UIBarButtonItem(title: "Share", style: .plain, target: self, action: #selector(self.action))
         self.navigationItem.rightBarButtonItem  = button1
         
@@ -36,7 +35,29 @@ class detailsNewPostViewController: UIViewController, UITextViewDelegate {
     }
     
     func quary() {
-        // sned data to server
+        let token = UserDefaultsHelper.getData(type: String.self, forKey: .authToken)!
+        let justDefault = JustSessionDefaults(
+            headers: ["AUTH-TOKEN": UserDefaultsHelper.getData(type: String.self, forKey: .authToken)!]
+        )
+        let just = JustOf<HTTP>(defaults: justDefault)
+        
+        
+        just.post(
+            "http://94.130.88.31:8380/api/create",
+            json: ["type": "post", "filters": ["latitude" : "52.23232",
+                   "longitude" : "35.232",
+                   "caption" : caption,
+                   "is_comment_enabled" : "0",
+                   "event_date_time" : "1620398719",
+                   "expiration_date_time" : "1632398719"]], asyncCompletionHandler:  { r in
+                print(r.statusCode!)
+                if r.ok {
+                    let json = r.json as? [String: Any]
+                    print(json)
+                }else {
+                    print(r.error)
+                }
+            })
     }
     
     
