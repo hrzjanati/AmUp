@@ -16,6 +16,7 @@
 		1603867B264C580C0058EBE4 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1603867A264C580C0058EBE4 /* ProfileViewController.swift */; };
 		160386AC264C916A0058EBE4 /* detailsNewPostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160386AB264C916A0058EBE4 /* detailsNewPostViewController.swift */; };
 		160386AF264C94720058EBE4 /* DetailsNewPostTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160386AE264C94720058EBE4 /* DetailsNewPostTableViewCell.swift */; };
+		162194E026D7493C0021FD24 /* Just.swift in Sources */ = {isa = PBXBuildFile; fileRef = 162194DF26D7493C0021FD24 /* Just.swift */; };
 		1626CB2A2646EFB80089A857 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1626CB292646EFB80089A857 /* AppDelegate.swift */; };
 		1626CB2C2646EFB80089A857 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1626CB2B2646EFB80089A857 /* SceneDelegate.swift */; };
 		1626CB312646EFB80089A857 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1626CB2F2646EFB80089A857 /* Main.storyboard */; };
@@ -38,6 +39,7 @@
 		1648AE82266BC95B007DAAC1 /* Activator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1648AE81266BC95B007DAAC1 /* Activator.swift */; };
 		164E8E05265053FF00105093 /* ActivityTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164E8E04265053FF00105093 /* ActivityTableViewCell.swift */; };
 		165E96CB265EA57E004EFAEB /* EditProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165E96CA265EA57E004EFAEB /* EditProfileViewController.swift */; };
+		165F52ED26D3FA5D00A29D80 /* HomeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165F52EC26D3FA5D00A29D80 /* HomeModel.swift */; };
 		16620DBE2656BA130023B2AD /* ProfilePhotoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16620DBD2656BA130023B2AD /* ProfilePhotoCollectionViewCell.swift */; };
 		16620DC42656BAEC0023B2AD /* ProfileHeaderViewCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16620DC32656BAEC0023B2AD /* ProfileHeaderViewCollectionReusableView.swift */; };
 		166545672655883C00343241 /* TableViewHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 166545662655883C00343241 /* TableViewHelper.swift */; };
@@ -64,6 +66,7 @@
 		1603867A264C580C0058EBE4 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		160386AB264C916A0058EBE4 /* detailsNewPostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = detailsNewPostViewController.swift; sourceTree = "<group>"; };
 		160386AE264C94720058EBE4 /* DetailsNewPostTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsNewPostTableViewCell.swift; sourceTree = "<group>"; };
+		162194DF26D7493C0021FD24 /* Just.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Just.swift; sourceTree = "<group>"; };
 		1626CB262646EFB80089A857 /* AmUp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AmUp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1626CB292646EFB80089A857 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1626CB2B2646EFB80089A857 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -89,6 +92,7 @@
 		1648AE81266BC95B007DAAC1 /* Activator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Activator.swift; sourceTree = "<group>"; };
 		164E8E04265053FF00105093 /* ActivityTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityTableViewCell.swift; sourceTree = "<group>"; };
 		165E96CA265EA57E004EFAEB /* EditProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileViewController.swift; sourceTree = "<group>"; };
+		165F52EC26D3FA5D00A29D80 /* HomeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeModel.swift; sourceTree = "<group>"; };
 		16620DBD2656BA130023B2AD /* ProfilePhotoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilePhotoCollectionViewCell.swift; sourceTree = "<group>"; };
 		16620DC32656BAEC0023B2AD /* ProfileHeaderViewCollectionReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHeaderViewCollectionReusableView.swift; sourceTree = "<group>"; };
 		166545662655883C00343241 /* TableViewHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewHelper.swift; sourceTree = "<group>"; };
@@ -122,6 +126,8 @@
 			isa = PBXGroup;
 			children = (
 				1682AF50265BDFA1004603FA /* Network.swift */,
+				165F52EC26D3FA5D00A29D80 /* HomeModel.swift */,
+				162194DF26D7493C0021FD24 /* Just.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -473,11 +479,13 @@
 				1665456A2655904000343241 /* DirecteTableViewCell.swift in Sources */,
 				1626CB492646F0890089A857 /* signInViewController.swift in Sources */,
 				CBF6343C26CA72BE00B18501 /* keybourdhelper.swift in Sources */,
+				162194E026D7493C0021FD24 /* Just.swift in Sources */,
 				1626CB8A26470E870089A857 /* directeViewController.swift in Sources */,
 				1626CB8726470B660089A857 /* functionsHelper.swift in Sources */,
 				16620DBE2656BA130023B2AD /* ProfilePhotoCollectionViewCell.swift in Sources */,
 				1626CB2A2646EFB80089A857 /* AppDelegate.swift in Sources */,
 				1626CB452646F0790089A857 /* signUpViewController.swift in Sources */,
+				165F52ED26D3FA5D00A29D80 /* HomeModel.swift in Sources */,
 				CB3BCCE926CA7D7D00B5C88B /* UserDefaultHelper.swift in Sources */,
 				166545672655883C00343241 /* TableViewHelper.swift in Sources */,
 				1648AE82266BC95B007DAAC1 /* Activator.swift in Sources */,
@@ -646,7 +654,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 8SPX72ZVQ3;
+				DEVELOPMENT_TEAM = B48Q8RY5GC;
 				INFOPLIST_FILE = AmUp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -666,7 +674,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 8SPX72ZVQ3;
+				DEVELOPMENT_TEAM = B48Q8RY5GC;
 				INFOPLIST_FILE = AmUp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

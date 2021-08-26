@@ -8,6 +8,7 @@
 import UIKit
 import Just
 
+
 class detailsNewPostViewController: UIViewController, UITextViewDelegate {
     
     @IBOutlet weak var tableView: UITableView!
@@ -44,12 +45,13 @@ class detailsNewPostViewController: UIViewController, UITextViewDelegate {
         
         just.post(
             "http://94.130.88.31:8380/api/create",
-            json: ["type": "post", "filters": ["latitude" : "52.23232",
-                   "longitude" : "35.232",
+            json: ["type": "post",
+                   "filters": ["latitude" : 52.23232,
+                   "longitude" : 35.232,
                    "caption" : caption,
-                   "is_comment_enabled" : "0",
-                   "event_date_time" : "1620398719",
-                   "expiration_date_time" : "1632398719"]], asyncCompletionHandler:  { r in
+                   "is_comment_enabled" : true,
+                   "event_date_time" : 1620398719,
+                   "expiration_date_time" : 1632398719]], asyncCompletionHandler:  { r in
                 print(r.statusCode!)
                 if r.ok {
                     let json = r.json as? [String: Any]
@@ -181,3 +183,4 @@ extension detailsNewPostViewController: UITableViewDelegate {
     
     
 }
+

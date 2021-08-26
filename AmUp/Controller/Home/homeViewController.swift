@@ -13,13 +13,23 @@ import Just
 class homeViewController: UIViewController {
     
     @IBOutlet weak var tableViewHome: UITableView!
+    
+    var dataArray = [Home]()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableViewHome.dataSource = self
-        tableViewHome.delegate = self
+      
         addBtnNavBarRighte()
         lblNavBar("Am up")
-        fetchData()
+        //fetchData()
+        postReq(compeleted: self.tableViewHome.reloadData)
+    }
+    
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        tableViewHome.dataSource = self
+        tableViewHome.delegate = self
     }
     
     //MARK:- Directe button in nav bar
@@ -33,29 +43,45 @@ class homeViewController: UIViewController {
         self.navigationController?.pushViewController(vc!, animated: true)
     }
     
+   
     
-    
-    func fetchData() {
+    func postReq(compeleted : @escaping () -> ()) {
         
-        let justDefault = JustSessionDefaults(
-            headers: ["AUTH-TOKEN": UserDefaultsHelper.getData(type: String.self, forKey: .authToken)!]
-        )
+        let Url = String(format: "http://94.130.88.31:8380/api/home")
+        guard let serviceUrl = URL(string: Url) else { return }
+        let parameterDictionary = ["latitude" : 1.3,"longitude" : 2.3]
+        var request = URLRequest(url: serviceUrl)
+        request.httpMethod = "POST"
+        request.setValue(UserDefaultsHelper.getData(type: String.self, forKey: .authToken)!, forHTTPHeaderField:  "AUTH-TOKEN" )
         
-        let just = JustOf<HTTP>(defaults: justDefault)
+        guard let httpBody = try? JSONSerialization.data(withJSONObject: parameterDictionary, options: []) else {
+            return
+        }
+        request.httpBody = httpBody
         
-            
-        just.post(
-            "http://94.130.88.31:8380/api/home",
-            json: ["latitude" : "52.232320000000001","longitude" : "35.231999999999999"], asyncCompletionHandler:  { r in
-                print(r.statusCode!)
-                if r.ok {
-                    let json = r.json as? [String: Any]
-                    print(json)
-                }else {
-                    print(r.error)
+        let session = URLSession.shared
+        session.dataTask(with: request) { (data, response, error) in
+            if let response = response {
+                print(response)
+                
+            }
+            if let httpResponse = response as? HTTPURLResponse {
+                print("STAUS : => \(httpResponse.statusCode)")
+            }
+            if let data = data {
+                do {
+                    self.dataArray = try JSONDecoder().decode([Home].self, from: data)
+                    print(self.dataArray)
+                    DispatchQueue.main.async {
+                        compeleted()
+                    }
+                } catch {
+                    print(error)
                 }
-            })
+            }
+        }.resume()
     }
+    
     
     
     /**End** class   */
@@ -64,7 +90,7 @@ class homeViewController: UIViewController {
 extension homeViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return dataArray.count
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
@@ -73,27 +99,41 @@ extension homeViewController: UITableViewDataSource {
     
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        
         let cell = tableViewHome.dequeueReusableCell(withIdentifier: "homeCell", for: indexPath) as! homeTableViewCell
         
         
-        let imageurl = "https://maps.googleapis.com/maps/api/staticmap?center=&maptype=roadmap&path=color:0x000000%7Cweight:10%7Cenc:q%60kzDsacsMyEoIaDiGs@sAYa@OIc@W]VqBnBSRS]qE_IgLeT_BwCwFrEjBpDjA%7CBqAhA%7BCjCj@bA&markers=color:green%7Clabel:P%7C30.699000010896544,56.69869985431433&markers=color:red%7Clabel:D%7C50.707998,64.703069&key=AIzaSyDdchM7apzEter6yaWfyQG-dF6AORh34MA&size=700x700"
+        let lat = dataArray[indexPath.row].latitude
+        let long = dataArray[indexPath.row].longitude
+        
+        let user = dataArray[indexPath.row].user
+        let profileDetails = user?.profileDetails
+        let userName = user?.username
+        let fullName = user?.fullName
+        let avatarUrl = (profileDetails?.avatarURL) ?? "https://maps.googleapis.com/maps/api/staticmap?center=&maptype=roadmap&path=color:0x000000%7Cweight:10%7Cenc:q%60kzDsacsMyEoIaDiGs@sAYa@OIc@W]VqBnBSRS]qE_IgLeT_BwCwFrEjBpDjA%7CBqAhA%7BCjCj@bA&markers=color:red%7Clabel:P%7C\(lat),\(long)&key=AIzaSyDdchM7apzEter6yaWfyQG-dF6AORh34MA&size=700x700"
+        
+        let imageurl = "https://maps.googleapis.com/maps/api/staticmap?center=&maptype=roadmap&path=color:0x000000%7Cweight:10%7Cenc:q%60kzDsacsMyEoIaDiGs@sAYa@OIc@W]VqBnBSRS]qE_IgLeT_BwCwFrEjBpDjA%7CBqAhA%7BCjCj@bA&markers=color:red%7Clabel:P%7C\(lat),\(long)&key=AIzaSyDdchM7apzEter6yaWfyQG-dF6AORh34MA&size=700x700"
         let url = URL(string: imageurl)!
+        let avatarUrlAlamo = URL(string: avatarUrl)!
         let placeholderImage = UIImage(named: "placholdermapW")!
+        
         cell.imageStaticMap.af.setImage(withURL: url, placeholderImage: placeholderImage)
-        cell.profileImage.image = UIImage(named: "woman")
-        cell.profileName.text = "hosin"
-        cell.profileLocation.text = "NewYourk"
-        cell.captionLbl.text = "jdhfjdhfjhdjdghdjgsdglkglkkljgksflgjsfklgjsfkjgsfkgjsfklgjsflkgjlksfgjlkfsjglksfjgio;afhjgoiuqryegiurjhgjksfahgo'wruqwirtu[prot iruwtyu3598760468249uiwqjgowrhgiuorqwhgkrngaushgjgkhfgkjlghih \n nwrhgjijwrhgkhqwrugioqrlkgjrgw;ohi \n qiwurgowrjgwrugh \n iuywghjwrguihwrghrjklgioh"
+        cell.profileImage.af.setImage(withURL: avatarUrlAlamo , placeholderImage: placeholderImage)
+        cell.profileName.text = userName
+        cell.profileLocation.text = fullName
+        cell.captionLbl.text = dataArray[indexPath.row].caption
         return cell
     }
 }
 //MARK:- UITableViewDelegate Protocol
 extension homeViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let vc = UIStoryboard.init(name: "singelViewSt", bundle: Bundle.main).instantiateViewController(withIdentifier: "SingelPostViewController") as? SingelPostViewController
-        self.navigationController?.pushViewController(vc!, animated: true)
-    }
+        let isCommentEnabled = dataArray[indexPath.row].isCommentEnabled
+        if isCommentEnabled == true {
+            let vc = UIStoryboard.init(name: "singelViewSt", bundle: Bundle.main).instantiateViewController(withIdentifier: "SingelPostViewController") as? SingelPostViewController
+            self.navigationController?.pushViewController(vc!, animated: true)
+        
+        }
+        
+ }
     
 }
