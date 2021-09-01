@@ -10,12 +10,7 @@ import Foundation
 import AlamofireImage
 import Alamofire
 
-
-
-
 class exploreViewController: UIViewController, UICollectionViewDataSource, GridLayoutDelegate, UISearchResultsUpdating {
-    
-    
     
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var gridLayout: GridLayout!
@@ -23,7 +18,7 @@ class exploreViewController: UIViewController, UICollectionViewDataSource, GridL
     
     var arrInstaBigCells = [Int]()
     var selectedIndexPath: IndexPath?
-    
+    var dataArray = [Explore]()
     let searchController = UISearchController(searchResultsController: nil)
     
     var resualt:ResualtSearchUpdaterViewController?
@@ -63,10 +58,51 @@ class exploreViewController: UIViewController, UICollectionViewDataSource, GridL
         gridLayout.fixedDivisionCount = 3
         
     }
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        fetchData()
+    }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(false)
         resulteSearchView.alpha = 0
+    }
+    
+    func fetchData() {
+        let Url = String(format: "http://94.130.88.31:8380/api/search")
+        guard let serviceUrl = URL(string: Url) else { return }
+        let parameterDictionary = ["type" : "all",
+                                   "query" : "faraz" ,
+                                   "filters" : ""]
+        var request = URLRequest(url: serviceUrl)
+        request.httpMethod = "POST"
+        request.setValue(UserDefaultsHelper.getData(type: String.self, forKey: .authToken)!, forHTTPHeaderField:  "po" )
+        
+        guard let httpBody = try? JSONSerialization.data(withJSONObject: parameterDictionary, options: []) else {
+            return
+        }
+        request.httpBody = httpBody
+        
+        let session = URLSession.shared
+        session.dataTask(with: request) { (data, response, error) in
+            if let response = response {
+                print(response)
+                
+            }
+            if let httpResponse = response as? HTTPURLResponse {
+                print("STAUS : => \(httpResponse.statusCode)")
+            }
+            if let data = data {
+                do {
+                    if let json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? [String: Any] {
+                        print(json)
+                        // handle json...
+                    }
+                } catch {
+                    print(error)
+                }
+            }
+        }.resume()
     }
     
     // MARK: - UICollectionViewDataSource
@@ -77,7 +113,6 @@ class exploreViewController: UIViewController, UICollectionViewDataSource, GridL
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "exploreCell", for: indexPath) as! exploreCollectionViewCell
-        
         
         let imageurl = "https://maps.googleapis.com/maps/api/staticmap?center=&maptype=roadmap&path=color:0x000000%7Cweight:10%7Cenc:q%60kzDsacsMyEoIaDiGs@sAYa@OIc@W]VqBnBSRS]qE_IgLeT_BwCwFrEjBpDjA%7CBqAhA%7BCjCj@bA&markers=color:green%7Clabel:P%7C30.699000010896544,76.69869985431433&markers=color:red%7Clabel:D%7C30.707998,76.703069&key=AIzaSyDdchM7apzEter6yaWfyQG-dF6AORh34MA&size=700x700"
         let url = URL(string: imageurl)!
@@ -111,7 +146,7 @@ extension exploreViewController : UICollectionViewDelegate {
         //        cell!.layer.backgroundColor = UIColor.white.cgColor
         self.selectedIndexPath = nil
     }
-// MARK: - PrimeGridDelegate
+    // MARK: - PrimeGridDelegate
     func scaleForItem(inCollectionView collectionView: UICollectionView, withLayout layout: UICollectionViewLayout, atIndexPath indexPath: IndexPath) -> UInt {
         if(arrInstaBigCells.contains(indexPath.row) || (indexPath.row == 1)){
             return 2
